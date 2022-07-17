@@ -1,0 +1,22 @@
+name: "depcheck action"
+description: "Analyze project dependencies using depcheck"
+inputs:
+  workdir:
+    description: "Working directory to use"
+    required: false
+    default: "."
+  config:
+    description: "Config file to use"
+    required: false
+    default: ""
+  loglevel:
+    description: "Log level to use"
+    required: false
+    default: ""
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    CONFIG: ${{ inputs.config }}
+    WORKDIR: ${{ inputs.workdir }}
+    LOGLEVEL: ${{ inputs.loglevel }}
