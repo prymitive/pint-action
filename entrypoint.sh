@@ -8,7 +8,9 @@ if  [ "$LOGLEVEL" != "" ]; then
     LOGLEVEL="--log-level=$LOGLEVEL"
 fi
 
-if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
+    pint $CONFIG $LOGLEVEL lint $WORKDIR
+else
     CMD="ci"
     BASEBRANCH="$GITHUB_BASE_REF"
     PRBRANCH="$GITHUB_REF_NAME"
@@ -24,6 +26,4 @@ if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
     git checkout "$PRBRANCH"
 
     env GITHUB_PULL_REQUEST_NUMBER="$PRNUMBER" pint $CONFIG $LOGLEVEL ci --base-branch="$BASEBRANCH"
-else
-    pint $CONFIG $LOGLEVEL lint $WORKDIR
 fi
