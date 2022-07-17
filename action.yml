@@ -1,5 +1,5 @@
-name: "depcheck action"
-description: "Analyze project dependencies using depcheck"
+name: "pint action"
+description: "Validate Prometheus rules using cloudflare/pint"
 inputs:
   workdir:
     description: "Working directory to use"
