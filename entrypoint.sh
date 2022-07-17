@@ -12,7 +12,10 @@ if [ "$GITHUB_EVENT_PATH" == "pull_request" ] && [ "$GITHUB_REF_TYPE" == "branch
     CMD="ci"
     BASEBRANCH="$GITHUB_BASE_REF"
     PRBRANCH="$GITHUB_REF_NAME"
-    PRNUMBER="$(echo "$GITHUB_REF" | awk -F / '{print $3}')"
+    PRNUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
+    echo ">>> BASE BRANCH: $BASEBRANCH"
+    echo ">>> PR BRANCH: $PRBRANCH"
+    echo ">>> PR NUMBER: $PRNUMBER"
 
     git fetch --unshallow
     git fetch origin "$BASEBRANCH"
