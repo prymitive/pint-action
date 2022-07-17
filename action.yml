@@ -4,6 +4,9 @@ branding:
   color: orange
   icon: bell
 inputs:
+  token:
+    description: "Github token to use"
+    required: true
   workdir:
     description: "Working directory to use"
     required: false
@@ -20,6 +23,7 @@ runs:
   using: "docker"
   image: "Dockerfile"
   env:
+    GITHUB_AUTH_TOKEN: ${{ inputs.token }}
     CONFIG: ${{ inputs.config }}
     WORKDIR: ${{ inputs.workdir }}
     LOGLEVEL: ${{ inputs.loglevel }}

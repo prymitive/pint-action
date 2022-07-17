@@ -5,6 +5,11 @@ to validate Prometheus rules.
 
 ## Inputs
 
+### `token`
+
+Github token to use when reporting problems on the pull request.
+Required, no default.
+
 ### `workdir`
 
 Directory to run check against. Default is `"."`.
@@ -24,6 +29,7 @@ to `pint` and it will use defaults.
 ```YAML
 uses: prymitive/pint-action@v0.1
 with:
+  token: ${{ github.token }}
   workdir: 'rules'
   config: 'pint.yaml'
   loglevel: 'debug'
