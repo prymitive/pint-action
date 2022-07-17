@@ -2,6 +2,8 @@
 
 This action will run [pint](https://github.com/cloudflare/pint)
 to validate Prometheus rules.
+It will run `pint ci` for pull requests and `pint lint` for
+merges.
 
 ## Inputs
 
@@ -24,13 +26,35 @@ to `pint` and it will use defaults.
 Log level for pint. Default is `""`, meaning no `--log-level` flag will be passed
 to `pint` and it will use defaults.
 
+## Requirements
+
+Validating PRs require full git history and so `actions/checkout` must be used
+with `fetch-depth: 0` option.
+
 ## Example usage
 
 ```YAML
-uses: prymitive/pint-action@v0.1
-with:
-  token: ${{ github.token }}
-  workdir: 'rules'
-  config: 'pint.yaml'
-  loglevel: 'debug'
+name: pint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run pint
+        uses: prymitive/pint-action@v1
+        with:
+          token: ${{ github.token }}
+          workdir: 'rules'
 ```
