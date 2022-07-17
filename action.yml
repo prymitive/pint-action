@@ -1,5 +1,8 @@
 name: "pint action"
 description: "Validate Prometheus rules using cloudflare/pint"
+branding:
+  color: orange
+  icon: bell
 inputs:
   workdir:
     description: "Working directory to use"
