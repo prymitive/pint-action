@@ -8,7 +8,7 @@ if  [ "$LOGLEVEL" != "" ]; then
     LOGLEVEL="--log-level=$LOGLEVEL"
 fi
 
-if [ "$GITHUB_EVENT_PATH" == "pull_request" ] && [ "$GITHUB_REF_TYPE" == "branch" ]; then
+if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
     CMD="ci"
     BASEBRANCH="$GITHUB_BASE_REF"
     PRBRANCH="$GITHUB_REF_NAME"
