@@ -14,7 +14,11 @@ Required, no default.
 
 ### `workdir`
 
-Directory to run check against on merges. Default is `"."`.
+Directory to run check against on pushes (for example after a merge).
+To set directories tested when running checks on a pull request please
+create a config file for pint and set `ci { include = [...] }` option.
+See [pint docs](https://cloudflare.github.io/pint/configuration.html#ci) for details.
+Default is `"."`.
 
 ### `config`
 
