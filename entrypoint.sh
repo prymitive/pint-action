@@ -16,7 +16,6 @@ else
     PRBRANCH="$GITHUB_HEAD_REF"
     echo ">>> BASE BRANCH: $BASEBRANCH"
     echo ">>> PR BRANCH: $PRBRANCH"
-    echo ">>> PR NUMBER: $PRNUMBER"
 
     git fetch origin "$BASEBRANCH"
     git checkout "$BASEBRANCH"
