@@ -14,7 +14,7 @@ Required, no default.
 
 ### `workdir`
 
-Directory to run check against. Default is `"."`.
+Directory to run check against on merges. Default is `"."`.
 
 ### `config`
 
