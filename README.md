@@ -35,6 +35,8 @@ to `pint` and it will use defaults.
 Validating PRs require full git history and so `actions/checkout` must be used
 with `fetch-depth: 0` option.
 
+Be sure to use a token with write access to the `pull-requests` scope.
+
 ## Example usage
 
 ```YAML
@@ -47,6 +49,9 @@ on:
   pull_request:
     branches:
       - main
+
+permissions:
+  pull-requests: write
 
 jobs:
   pint:
