@@ -8,8 +8,12 @@ if  [ "$LOGLEVEL" != "" ]; then
     LOGLEVEL="--log-level=$LOGLEVEL"
 fi
 
+if  [ "$MIN_SEVERITY" != "" ]; then
+    MIN_SEVERITY="--min-severity=$MIN_SEVERITY"
+fi
+
 if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
-    pint $CONFIG $LOGLEVEL lint $WORKDIR
+    pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $WORKDIR
 else
     CMD="ci"
     BASEBRANCH="$GITHUB_BASE_REF"
