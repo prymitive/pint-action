@@ -12,8 +12,12 @@ if  [ "$MIN_SEVERITY" != "" ]; then
     MIN_SEVERITY="--min-severity=$MIN_SEVERITY"
 fi
 
+if  [ "$REQUIRE_OWNER" != "" ]; then
+    REQUIRE_OWNER="--require-owner"
+fi
+
 if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
-    pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $WORKDIR
+    pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $REQUIRE_OWNER $WORKDIR
 else
     CMD="ci"
     BASEBRANCH="$GITHUB_BASE_REF"
@@ -26,5 +30,5 @@ else
     git fetch origin "$PRBRANCH"
     git checkout "$PRBRANCH"
 
-    pint $CONFIG $LOGLEVEL ci --base-branch="$BASEBRANCH"
+    pint $CONFIG $LOGLEVEL ci --base-branch="$BASEBRANCH" $REQUIRE_OWNER
 fi

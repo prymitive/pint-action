@@ -37,6 +37,11 @@ to `pint` and it will use defaults.
 
 Available options : `info`, `warning` *(lint default)*, `bug` `fatal`.
 
+### `requireOwner`
+
+If set to any non-empty string pint will be run with `--require-owner` flag.
+Passing this flag will require all rule files or individual rules to have owner set via comment.
+
 ## Requirements
 
 Validating PRs require full git history and so `actions/checkout` must be used
@@ -73,4 +78,5 @@ jobs:
         with:
           token: ${{ github.token }}
           workdir: 'rules'
+          requireOwner: 'true'
 ```
