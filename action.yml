@@ -23,6 +23,11 @@ inputs:
     description: "Minimum severity to report"
     required: false
     default: ""
+  requireOwner:
+    description: "Require all rules to have an owner set via comment"
+    required: false
+    default: ""
+    
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -32,3 +37,4 @@ runs:
     WORKDIR: ${{ inputs.workdir }}
     LOGLEVEL: ${{ inputs.loglevel }}
     MIN_SEVERITY: ${{ inputs.minSeverity }}
+    REQUIRE_OWNER: ${{ inputs.requireOwner }}
