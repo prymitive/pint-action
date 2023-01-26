@@ -30,6 +30,13 @@ to `pint` and it will use defaults.
 Log level for pint. Default is `""`, meaning no `--log-level` flag will be passed
 to `pint` and it will use defaults.
 
+### `minSeverity`
+
+Minimum severity reported by the **lint** command. Default is `""`, meaning no `--min-severity` flag will be passed
+to `pint` and it will use defaults.
+
+Available options : `info`, `warning` *(lint default)*, `bug` `fatal`.
+
 ## Requirements
 
 Validating PRs require full git history and so `actions/checkout` must be used
