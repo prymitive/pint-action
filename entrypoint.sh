@@ -25,6 +25,9 @@ else
     echo ">>> BASE BRANCH: $BASEBRANCH"
     echo ">>> PR BRANCH: $PRBRANCH"
 
+    echo ">>> GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+    git config --global --add safe.directory ${GITHUB_WORKSPACE}
+    
     git fetch origin "$BASEBRANCH"
     git checkout "$BASEBRANCH"
     git fetch origin "$PRBRANCH"
