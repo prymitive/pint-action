@@ -106,6 +106,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }} # REQUIRED FOR PRs FROM FORKS | https://github.com/actions/checkout/issues/124#issuecomment-586664611
 
       - name: Run pint
         uses: prymitive/pint-action@v1
@@ -119,5 +120,10 @@ jobs:
 
 Some caveats:
 
-- The `pull_requests` permission will *not* be granted "write" access by default (TODO link to internal docs)
-- `pr_target_repo` and `pr_source_repo` must both be set to the values indicated
+- The `pull_requests` permission will *not* be granted "write" access [for pull request from public forks](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token). This is a GitHub limitation.
+- `pr_target_repo` and `pr_source_repo` must both be set to the variables indicated
+- `actions/checkout@v3` must be set with `ref: ${{ github.event.pull_request.head.sha }}`
+
+The only work around to get `pull-requests: write` permission on the default GITHUB_TOKEN is to make your repository private. For example, this can work well in a Github Enterprise environment. Github has chosen to set "Maximum access for pull requests from public forked repositories" to "read" on every single token scope.
+
+Once your repository is private, you can set `Send write tokens to workflows from fork pull requests` or `Send secrets and variables to workflows from fork pull requests` under the Actions settings menu.
