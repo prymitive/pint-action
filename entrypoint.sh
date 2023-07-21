@@ -17,11 +17,11 @@ if  [ "$REQUIRE_OWNER" != "" ]; then
 fi
 
 if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
-    pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $REQUIRE_OWNER $WORKDIR
+    pint "$CONFIG" "$LOGLEVEL" lint "$MIN_SEVERITY" "$REQUIRE_OWNER" "$WORKDIR"
 else
     CMD="ci"
     echo ">>> GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-    git config --global --add safe.directory ${GITHUB_WORKSPACE}
+    git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 
     # we must have both target/source repo values populated, and they should differ to indicate the PR is from a fork
     if [ "${PULL_REQUEST_TARGET_REPO}" != "" ] && [ "${PULL_REQUEST_SOURCE_REPO}" != "" ] && [ "${PULL_REQUEST_TARGET_REPO}" != "${PULL_REQUEST_SOURCE_REPO}" ]; then
@@ -43,23 +43,23 @@ else
         # # https://github.com/reg-viz/reg-suit/issues/590#issuecomment-1219155722
         # workaround for detached head
         # force delete any existing branch we could have
-        git branch -D ${GITHUB_HEAD_REF#refs/heads/} || true
+        git branch -D "${GITHUB_HEAD_REF#refs/heads/}" || true
         # TODO - I think if the PR from a fork has the same branch name as BASEBRANCH this could go awry
-        git checkout -b ${GITHUB_HEAD_REF#refs/heads/}
+        git checkout -b "${GITHUB_HEAD_REF#refs/heads/}"
         # make a new local branch with our upstream data
-        git branch --set-upstream-to=origin/$BASEBRANCH ${GITHUB_HEAD_REF}
+        git branch --set-upstream-to=origin/"$BASEBRANCH" "${GITHUB_HEAD_REF}"
         git pull
 
         # populate a local base branch with upstream data
-        git checkout remotes/origin/$BASEBRANCH
-        git branch $BASEBRANCH
-        git reset --hard remotes/origin/$BASEBRANCH
+        git checkout remotes/origin/"$BASEBRANCH"
+        git branch "$BASEBRANCH"
+        git reset --hard remotes/origin/"$BASEBRANCH"
         # helpful debug step
         git remote -v
-        git pull origin $BASEBRANCH
+        git pull origin "$BASEBRANCH"
 
         # go back to our fork branch
-        git checkout ${GITHUB_HEAD_REF#refs/heads/}
+        git checkout "${GITHUB_HEAD_REF#refs/heads/}"
     else
         # pull request is not from fork
         echo ">>> Running steps for PR from trunk (not fork)"
@@ -73,6 +73,6 @@ else
         git checkout "$PRBRANCH"
 
     fi
-        pint $CONFIG $LOGLEVEL $CMD --base-branch="$BASEBRANCH" $REQUIRE_OWNER
+        pint "$CONFIG" "$LOGLEVEL" $CMD --base-branch="$BASEBRANCH" "$REQUIRE_OWNER"
 
 fi
