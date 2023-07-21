@@ -80,3 +80,44 @@ jobs:
           workdir: 'rules'
           requireOwner: 'true'
 ```
+
+## Pull Requests from Forks
+
+It is possible to use Pint with pull requests originating from forked repositories. There is some additional configuration. An example configuration could look like:
+
+```YAML
+name: pint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run pint
+        uses: prymitive/pint-action@v1
+        with:
+          token: ${{ github.token }}
+          workdir: 'rules'
+          requireOwner: 'true'
+          pr_target_repo: ${{ github.event.pull_request.base.repo.full_name }} # REQUIRED FOR PRs FROM FORKS
+          pr_source_repo: ${{ github.event.pull_request.head.repo.full_name }} # REQUIRED FOR PRs FROM FORKS
+```
+
+Some caveats:
+
+- The `pull_requests` permission will *not* be granted "write" access by default (TODO link to internal docs)
+- `pr_target_repo` and `pr_source_repo` must both be set to the values indicated
