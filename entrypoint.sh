@@ -47,7 +47,7 @@ else
         # TODO - I think if the PR from a fork has the same branch name as BASEBRANCH this could go awry
         git checkout -b ${GITHUB_HEAD_REF#refs/heads/}
         # make a new local branch with our upstream data
-        git branch --set-upstream-to=origin/master ${GITHUB_HEAD_REF}
+        git branch --set-upstream-to=origin/$BASEBRANCH ${GITHUB_HEAD_REF}
         git pull
 
         # populate a local base branch with upstream data
