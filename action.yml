@@ -38,3 +38,5 @@ runs:
     LOGLEVEL: ${{ inputs.loglevel }}
     MIN_SEVERITY: ${{ inputs.minSeverity }}
     REQUIRE_OWNER: ${{ inputs.requireOwner }}
+    PULL_REQUEST_TARGET_REPO: ${{ github.event.pull_request.base.repo.full_name }}
+    PULL_REQUEST_SOURCE_REPO: ${{ github.event.pull_request.head.repo.full_name }}
