@@ -17,6 +17,7 @@ if  [ "$REQUIRE_OWNER" != "" ]; then
 fi
 
 if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
+    echo ">>> Running: pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $REQUIRE_OWNER $WORKDIR"
     pint "$CONFIG" "$LOGLEVEL" lint "$MIN_SEVERITY" "$REQUIRE_OWNER" "$WORKDIR"
 else
     CMD="ci"
@@ -73,6 +74,7 @@ else
         git checkout "$PRBRANCH"
 
     fi
-        pint "$CONFIG" "$LOGLEVEL" $CMD --base-branch="$BASEBRANCH" "$REQUIRE_OWNER"
 
+    echo ">>> Running: pint $CONFIG $LOGLEVEL $CMD --base-branch=$BASEBRANCH $REQUIRE_OWNER"
+    pint "$CONFIG" "$LOGLEVEL" $CMD --base-branch="$BASEBRANCH" "$REQUIRE_OWNER"
 fi
