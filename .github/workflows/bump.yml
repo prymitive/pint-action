@@ -14,6 +14,13 @@ jobs:
 
     - name: Bump version
       uses: anothrNick/github-tag-action@v1
+      id: tag_action
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
+
+    - uses: fischerscode/tagger@v0.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        prefix: v
+        tag: ${{ steps.tag_action.outputs.new_tag }}
