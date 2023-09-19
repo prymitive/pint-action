@@ -43,10 +43,17 @@ else
         # # https://github.com/reg-viz/reg-suit#workaround-for-detached-head
         # # https://github.com/reg-viz/reg-suit/issues/590#issuecomment-1219155722
         # workaround for detached head
+        # rename so base branch wont conflict with fork branch
+        if [ "${GITHUB_HEAD_REF#refs/heads/}" = "${BASEBRANCH}" ]; then
+            localbranch="${GITHUB_HEAD_REF#refs/heads/}_fork"
+        else
+            localbranch="${GITHUB_HEAD_REF#refs/heads/}"
+        fi
         # force delete any existing branch we could have
-        git branch -D "${GITHUB_HEAD_REF#refs/heads/}" || true
-        # TODO - I think if the PR from a fork has the same branch name as BASEBRANCH this could go awry
-        git checkout -b "${GITHUB_HEAD_REF#refs/heads/}"
+        git branch -D "${localbranch}" || true
+
+        # make new branch, locally
+        git checkout -b "${localbranch}"
         # make a new local branch with our upstream data
         git branch --set-upstream-to=origin/"$BASEBRANCH" "${GITHUB_HEAD_REF}"
         git pull
@@ -60,7 +67,7 @@ else
         git pull origin "$BASEBRANCH"
 
         # go back to our fork branch
-        git checkout "${GITHUB_HEAD_REF#refs/heads/}"
+        git checkout "${localbranch}"
     else
         # pull request is not from fork
         echo ">>> Running steps for PR from trunk (not fork)"
