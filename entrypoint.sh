@@ -55,7 +55,7 @@ else
         # make new branch, locally
         git checkout -b "${localbranch}"
         # make a new local branch with our upstream data
-        git branch --set-upstream-to=origin/"$BASEBRANCH" "${GITHUB_HEAD_REF}"
+        git branch --set-upstream-to=origin/"$BASEBRANCH" "${localbranch}"
         git pull
 
         # populate a local base branch with upstream data
