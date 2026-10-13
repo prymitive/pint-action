@@ -16,10 +16,27 @@ if  [ "$REQUIRE_OWNER" != "" ]; then
     REQUIRE_OWNER="--require-owner"
 fi
 
-if [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
+# Inputs, not GITHUB_*: the runner overwrites default GITHUB_* vars in
+# container actions after the step env is applied, so a workflow_run job
+# cannot fake a pull_request event.
+if [ -n "$PR_NUMBER" ]; then
+    export GITHUB_PULL_REQUEST_NUMBER="$PR_NUMBER"
+fi
+if [ -n "$BASE_BRANCH" ]; then
+    GITHUB_BASE_REF="$BASE_BRANCH"
+fi
+if [ -n "$HEAD_REF" ]; then
+    GITHUB_HEAD_REF="$HEAD_REF"
+fi
+
+if [ "$GITHUB_EVENT_NAME" != "pull_request" ] && [ -z "$PR_NUMBER" ]; then
     echo ">>> Running: pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $REQUIRE_OWNER $WORKDIR"
     pint $CONFIG $LOGLEVEL lint $MIN_SEVERITY $REQUIRE_OWNER "$WORKDIR"
 else
+    if [ -z "$GITHUB_BASE_REF" ] || [ -z "$GITHUB_HEAD_REF" ]; then
+        echo ">>> pint ci needs a base branch and a head ref; set base_branch and head_ref"
+        exit 1
+    fi
     CMD="ci"
     echo ">>> GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
     git config --global --add safe.directory "${GITHUB_WORKSPACE}"

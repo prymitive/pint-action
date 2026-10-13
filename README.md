@@ -3,7 +3,8 @@
 This action will run [pint](https://github.com/cloudflare/pint)
 to validate Prometheus rules.
 It will run `pint ci` for pull requests and `pint lint` for
-merges.
+merges. Set `pr_number` to run `pint ci` from `workflow_run` or
+`pull_request_target`, where the event name is not `pull_request`.
 
 ## Inputs
 
@@ -41,6 +42,18 @@ Available options : `info`, `warning` *(lint default)*, `bug` `fatal`.
 
 If set to any non-empty string pint will be run with `--require-owner` flag.
 Passing this flag will require all rule files or individual rules to have owner set via comment.
+
+### `pr_number`
+
+Pull request number. When set, the action runs `pint ci` even if `GITHUB_EVENT_NAME` is not `pull_request`. Leave empty on a normal `pull_request` workflow. Requires `base_branch` and `head_ref` when those `GITHUB_*` refs are empty, which they are on `workflow_run`.
+
+### `base_branch`
+
+Base branch passed to `pint ci --base-branch`. Overrides `GITHUB_BASE_REF` when set.
+
+### `head_ref`
+
+Head branch to check out before `pint ci`. Overrides `GITHUB_HEAD_REF` when set.
 
 ## Requirements
 

@@ -35,6 +35,18 @@ inputs:
     description: "Required for pull requests from forks - source PR repository"
     required: false
     default: ""
+  pr_number:
+    description: "Pull request number. Set this to run pint ci when the event is not pull_request (workflow_run, pull_request_target). The runner overwrites GITHUB_EVENT_NAME inside container actions, so this input is what selects ci mode."
+    required: false
+    default: ""
+  base_branch:
+    description: "Base branch for pint ci. Required with pr_number when GITHUB_BASE_REF is empty."
+    required: false
+    default: ""
+  head_ref:
+    description: "Head branch for pint ci. Required with pr_number when GITHUB_HEAD_REF is empty."
+    required: false
+    default: ""
 
 
 runs:
@@ -49,3 +61,6 @@ runs:
     REQUIRE_OWNER: ${{ inputs.requireOwner }}
     PULL_REQUEST_TARGET_REPO: ${{ inputs.pr_target_repo }}
     PULL_REQUEST_SOURCE_REPO: ${{ inputs.pr_source_repo }}
+    PR_NUMBER: ${{ inputs.pr_number }}
+    BASE_BRANCH: ${{ inputs.base_branch }}
+    HEAD_REF: ${{ inputs.head_ref }}
