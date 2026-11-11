@@ -1,3 +1,3 @@
-FROM ghcr.io/cloudflare/pint:0.89.4
+FROM ghcr.io/cloudflare/pint:0.90.0
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
